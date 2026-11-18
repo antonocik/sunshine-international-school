@@ -1,0 +1,618 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Sunshine International School</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --primary:#7a1416;
+    --primary-dark:#4a0a0b;
+    --primary-light:#9c1c1f;
+    --accent:#cfa560;
+    --bg:#f4f4f4;
+    --cream:#faf6f0;
+    --text:#222;
+    --muted:#5a5a5a;
+    --white:#ffffff;
+    --shadow-sm:0 2px 8px rgba(0,0,0,.08);
+    --shadow-md:0 8px 24px rgba(0,0,0,.12);
+    --shadow-lg:0 16px 40px rgba(0,0,0,.18);
+    --radius:10px;
+    --transition:.3s cubic-bezier(.4,0,.2,1);
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{font-family:'Poppins',sans-serif;color:var(--text);background:#fff;line-height:1.65;-webkit-font-smoothing:antialiased}
+  img{max-width:100%;display:block}
+  a{text-decoration:none;color:inherit}
+  button{font-family:inherit;cursor:pointer}
+  section{scroll-margin-top:80px}
+  .container{max-width:1200px;margin:0 auto;padding:0 24px}
+
+  /* Skip link */
+  .skip-link{position:absolute;left:-9999px;top:0;background:var(--primary);color:#fff;padding:8px 16px;z-index:1000}
+  .skip-link:focus{left:0}
+
+  /* Top bar */
+  .topbar{background:var(--primary);color:#fff;font-size:13px;padding:8px 0}
+  .topbar-inner{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px}
+  .topbar a{color:#fff;opacity:.9;transition:opacity .2s}
+  .topbar a:hover{opacity:1}
+  .topbar .social{display:flex;gap:10px;align-items:center}
+  .topbar .sep{opacity:.5;margin:0 4px}
+
+  /* Header */
+  header.site-header{background:#fff;padding:12px 0;border-bottom:1px solid #eee;position:sticky;top:0;z-index:50;transition:box-shadow var(--transition),padding var(--transition);backdrop-filter:saturate(180%) blur(6px)}
+  header.site-header.scrolled{box-shadow:var(--shadow-md);padding:8px 0}
+  .header-inner{display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap}
+  .brand{display:flex;align-items:center;gap:12px}
+  .crest{width:54px;height:54px;background:linear-gradient(135deg,var(--primary),var(--primary-light));border-radius:10px;display:flex;align-items:center;justify-content:center;color:#fff;font-size:26px;box-shadow:var(--shadow-sm)}
+  .brand-text h1{font-size:19px;color:var(--primary);letter-spacing:.5px;line-height:1.1;font-weight:700}
+  .brand-text p{font-size:12px;color:var(--muted);font-style:italic}
+  nav.main{display:flex;gap:4px;align-items:center;flex-wrap:wrap}
+  nav.main a{padding:9px 15px;font-size:13px;font-weight:600;color:#333;border-radius:6px;transition:all var(--transition);position:relative;letter-spacing:.3px;white-space:nowrap}
+  nav.main a::after{content:'';position:absolute;bottom:2px;left:50%;transform:translateX(-50%) scaleX(0);width:50%;height:2px;background:var(--primary);transition:transform var(--transition);border-radius:2px}
+  nav.main a:hover{color:var(--primary);background:rgba(122,20,22,.05)}
+  nav.main a:hover::after,nav.main a.active::after{transform:translateX(-50%) scaleX(1)}
+  nav.main a.active{color:var(--primary)}
+  .header-actions{display:flex;align-items:center;gap:12px}
+  .brand{display:flex;align-items:center;gap:12px;min-width:0}
+  .brand-text{min-width:0}
+  .brand-text h1{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .btn-enquire{background:var(--primary);color:#fff;padding:9px 18px;border-radius:6px;font-size:13px;font-weight:600;transition:all var(--transition);border:2px solid var(--primary)}
+  .btn-enquire:hover{background:transparent;color:var(--primary)}
+  .search-icon{width:36px;height:36px;border:1px solid #ddd;border-radius:6px;display:flex;align-items:center;justify-content:center;color:#555;transition:all var(--transition)}
+  .search-icon:hover{border-color:var(--primary);color:var(--primary)}
+  .hamburger{display:none;background:none;border:none;font-size:24px;color:var(--primary)}
+
+  /* Hero */
+  .hero{position:relative;background:linear-gradient(110deg,rgba(122,20,22,.95) 0%,rgba(122,20,22,.75) 42%,rgba(0,0,0,0) 42%),url('https://picsum.photos/seed/sishero/1600/900') center/cover no-repeat;color:#fff;padding:80px 0 100px;min-height:520px;overflow:hidden}
+  .hero-grid{display:grid;grid-template-columns:1fr 440px;gap:40px;align-items:center}
+  .hero-text .kicker{font-size:13px;letter-spacing:2.5px;opacity:.85;margin-bottom:8px;font-weight:500}
+  .hero-text h2{font-family:'Playfair Display',serif;font-size:52px;line-height:1.05;margin-bottom:16px}
+  .hero-text h2 .accent{color:#ffb3b3}
+  .hero-text p{font-size:17px;opacity:.92;margin-bottom:26px;max-width:480px}
+  .hero-buttons{display:flex;gap:12px;flex-wrap:wrap}
+  .btn-primary{background:var(--primary);color:#fff;padding:13px 24px;border-radius:6px;font-weight:600;font-size:13px;border:2px solid var(--primary);transition:all var(--transition);display:inline-block}
+  .btn-primary:hover{background:transparent;border-color:#fff}
+  .btn-outline{background:transparent;color:#fff;padding:13px 24px;border-radius:6px;font-weight:600;font-size:13px;border:2px solid #fff;transition:all var(--transition);display:inline-block}
+  .btn-outline:hover{background:#fff;color:var(--primary)}
+  .hero-img{position:relative;overflow:hidden;border-radius:12px}
+  .hero-img img{border-radius:12px;box-shadow:var(--shadow-lg);width:100%;transition:transform .6s ease}
+  .hero-img:hover img{transform:scale(1.03)}
+  .enquire-form{position:absolute;top:24px;right:24px;width:300px;background:#fff;color:var(--text);border-radius:10px;overflow:hidden;box-shadow:var(--shadow-lg);animation:floatIn .6s ease;max-height:calc(100% - 48px)}
+  @keyframes floatIn{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+  .enquire-form .head{background:var(--primary);color:#fff;padding:16px 20px}
+  .enquire-form .head h3{font-size:17px;font-weight:600}
+  .enquire-form .head p{font-size:12px;opacity:.85;margin-top:2px}
+  .enquire-form form{padding:18px;display:flex;flex-direction:column;gap:11px}
+  .enquire-form input,.enquire-form select{padding:10px 13px;border:1px solid #ddd;border-radius:6px;font-size:13px;transition:border-color var(--transition),box-shadow var(--transition);font-family:inherit}
+  .enquire-form input:focus,.enquire-form select:focus{outline:none;border-color:var(--primary);box-shadow:0 0 0 3px rgba(122,20,22,.12)}
+  .enquire-form button{background:var(--primary);color:#fff;padding:11px;border:none;border-radius:6px;font-weight:600;font-size:13px;transition:all var(--transition)}
+  .enquire-form button:hover{background:var(--primary-dark)}
+
+  /* Features */
+  .features{background:#fff;padding:48px 0;border-bottom:1px solid #eee}
+  .features-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:18px;text-align:center}
+  .feat{padding:12px;transition:transform var(--transition)}
+  .feat:hover{transform:translateY(-4px)}
+  .feat .icon{width:60px;height:60px;margin:0 auto 12px;background:var(--cream);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:26px;color:var(--primary);transition:all var(--transition)}
+  .feat:hover .icon{background:var(--primary);color:#fff}
+  .feat p{font-size:13px;font-weight:600;color:#333}
+
+  /* Welcome */
+  .welcome{padding:80px 0;background:#fff}
+  .welcome-grid{display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:center}
+  .welcome-img{border-radius:12px;overflow:hidden;height:360px;position:relative}
+  .welcome-img img{width:100%;height:100%;object-fit:cover;transition:transform .6s ease}
+  .welcome-img:hover img{transform:scale(1.05)}
+  .welcome-text .kicker{color:var(--primary);font-size:13px;letter-spacing:2.5px;font-weight:700;margin-bottom:8px}
+  .welcome-text h2{font-family:'Playfair Display',serif;font-size:32px;margin-bottom:16px;color:#222}
+  .welcome-text p{color:var(--muted);margin-bottom:14px}
+  .btn-know{display:inline-block;background:var(--primary);color:#fff;padding:11px 22px;border-radius:6px;font-size:13px;font-weight:600;transition:all var(--transition)}
+  .btn-know:hover{background:var(--primary-dark);transform:translateY(-2px)}
+
+  /* Stats */
+  .stats{background:var(--cream);padding:60px 0}
+  .stats-grid{display:grid;grid-template-columns:repeat(6,1fr);gap:18px;text-align:center}
+  .stat{padding:12px}
+  .stat .num{font-size:30px;font-weight:700;color:var(--primary);font-family:'Playfair Display',serif}
+  .stat .lbl{font-size:12px;color:var(--muted);margin-top:6px}
+
+  /* Programs */
+  .programs{padding:80px 0;background:#fff}
+  .section-head{text-align:center;margin-bottom:48px}
+  .section-head .kicker{color:var(--primary);font-size:13px;letter-spacing:2.5px;font-weight:700}
+  .section-head h2{font-family:'Playfair Display',serif;font-size:32px;margin-top:8px;color:#222}
+  .prog-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:20px}
+  .prog-card{background:#fff;border:1px solid #eee;border-radius:12px;overflow:hidden;transition:all var(--transition)}
+  .prog-card:hover{transform:translateY(-6px);box-shadow:var(--shadow-md);border-color:transparent}
+  .prog-card img{height:140px;width:100%;object-fit:cover;transition:transform .5s ease}
+  .prog-card:hover img{transform:scale(1.08)}
+  .prog-body{padding:16px}
+  .prog-body h4{color:var(--primary);font-size:16px;margin-bottom:2px;font-weight:600}
+  .prog-body .tag{font-size:12px;font-weight:600;color:#333;margin-bottom:8px}
+  .prog-body p{font-size:12.5px;color:var(--muted);margin-bottom:10px;line-height:1.5}
+  .prog-body a{font-size:12.5px;color:var(--primary);font-weight:600;transition:gap var(--transition);display:inline-flex;align-items:center;gap:4px}
+  .prog-body a:hover{gap:8px}
+
+  /* Facilities */
+  .facilities{background:var(--primary);color:#fff;padding:60px 0;position:relative;overflow:hidden}
+  .facilities::before{content:'';position:absolute;inset:0;background:radial-gradient(circle at 20% 50%,rgba(255,255,255,.08),transparent 60%)}
+  .fac-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:18px;text-align:center;position:relative}
+  .fac{padding:16px;transition:transform var(--transition)}
+  .fac:hover{transform:translateY(-4px)}
+  .fac .icon{font-size:34px;margin-bottom:10px}
+  .fac .num{font-size:26px;font-weight:700;font-family:'Playfair Display',serif}
+  .fac .lbl{font-size:12px;opacity:.85;margin-top:6px}
+
+  /* Beyond */
+  .beyond{padding:80px 0;background:#fff}
+  .beyond-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:22px}
+  .beyond-card{background:var(--cream);border-radius:12px;padding:36px 22px;text-align:center;transition:all var(--transition);border:1px solid transparent}
+  .beyond-card:hover{background:#fff;border-color:var(--primary);transform:translateY(-6px);box-shadow:var(--shadow-md)}
+  .beyond-card .icon{font-size:40px;color:var(--primary);margin-bottom:14px;transition:transform var(--transition)}
+  .beyond-card:hover .icon{transform:scale(1.15)}
+  .beyond-card h4{color:#333;font-size:15px;font-weight:600}
+
+  /* Testimonial */
+  .testimonial{background:var(--bg);padding:70px 0;text-align:center}
+  .testimonial .stars{color:#f0a500;font-size:20px;margin-bottom:16px;letter-spacing:4px}
+  .testimonial .quote{font-size:19px;font-style:italic;color:#333;max-width:720px;margin:0 auto 20px;line-height:1.7}
+  .testimonial .author{font-weight:700;color:var(--primary);font-size:16px}
+  .testimonial .role{font-size:13px;color:var(--muted);margin-top:4px}
+
+  /* Announcements */
+  .announcements{padding:70px 0;background:#fff}
+  .ann-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+  .ann-card{display:flex;gap:16px;align-items:flex-start;background:var(--cream);border-radius:12px;padding:20px;transition:all var(--transition)}
+  .ann-card:hover{background:#fff;box-shadow:var(--shadow-sm);transform:translateY(-3px)}
+  .ann-date{background:var(--primary);color:#fff;border-radius:8px;padding:10px 14px;text-align:center;min-width:58px;flex-shrink:0}
+  .ann-date .day{font-size:22px;font-weight:700;line-height:1}
+  .ann-date .mon{font-size:11px;text-transform:uppercase;margin-top:2px;opacity:.85}
+  .ann-body h4{font-size:14.5px;color:#333;margin-bottom:4px;font-weight:600}
+  .ann-body p{font-size:13px;color:var(--muted)}
+
+  /* Tour */
+  .tour{background:linear-gradient(120deg,var(--primary),var(--primary-dark));color:#fff;padding:70px 0;position:relative;overflow:hidden}
+  .tour::after{content:'🏫';position:absolute;right:8%;top:50%;transform:translateY(-50%);font-size:120px;opacity:.12}
+  .tour-inner{display:grid;grid-template-columns:1fr 1fr;gap:30px;align-items:center}
+  .tour h2{font-family:'Playfair Display',serif;font-size:34px;margin-bottom:10px}
+  .tour p{opacity:.88;margin-bottom:22px;font-size:16px}
+  .tour .btn-white{background:#fff;color:var(--primary);padding:13px 26px;border-radius:6px;font-weight:600;font-size:13px;display:inline-block;transition:all var(--transition)}
+  .tour .btn-white:hover{transform:translateY(-2px);box-shadow:var(--shadow-md)}
+
+  /* Footer */
+  footer.site-footer{background:var(--primary-dark);color:#fff;padding:60px 0 20px}
+  .footer-grid{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:32px;margin-bottom:36px}
+  footer h4{font-size:15px;margin-bottom:14px;font-weight:600;letter-spacing:.5px}
+  footer p,footer li{font-size:13px;opacity:.82;line-height:1.9}
+  footer ul{list-style:none}
+  footer ul li{transition:opacity var(--transition),transform var(--transition);cursor:pointer}
+  footer ul li:hover{opacity:1;transform:translateX(4px)}
+  .newsletter{display:flex;gap:6px;margin-top:12px}
+  .newsletter input{flex:1;padding:10px 13px;border:none;border-radius:6px;font-size:13px}
+  .newsletter button{background:var(--primary);color:#fff;border:none;padding:10px 16px;border-radius:6px;cursor:pointer;transition:background var(--transition)}
+  .newsletter button:hover{background:var(--primary-light)}
+  .footer-bottom{border-top:1px solid rgba(255,255,255,.15);padding-top:18px;display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px;font-size:12px;opacity:.65}
+
+  /* Reveal animation */
+  .reveal{opacity:0;transform:translateY(30px);transition:opacity .7s ease,transform .7s ease}
+  .reveal.visible{opacity:1;transform:translateY(0)}
+
+  /* Back to top */
+  .back-to-top{position:fixed;bottom:24px;right:24px;width:44px;height:44px;background:var(--primary);color:#fff;border:none;border-radius:50%;font-size:18px;cursor:pointer;opacity:0;visibility:hidden;transition:all var(--transition);box-shadow:var(--shadow-md);z-index:60}
+  .back-to-top.show{opacity:1;visibility:visible}
+  .back-to-top:hover{background:var(--primary-dark);transform:translateY(-3px)}
+
+  /* Toast */
+  .toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(100px);background:#222;color:#fff;padding:12px 22px;border-radius:8px;font-size:13px;transition:transform .4s ease;z-index:100;box-shadow:var(--shadow-lg)}
+  .toast.show{transform:translateX(-50%) translateY(0)}
+
+  @media(max-width:900px){
+    .hero-grid{grid-template-columns:1fr}
+    .enquire-form{position:static;width:100%;margin-top:24px}
+    .hero{background:linear-gradient(180deg,rgba(122,20,22,.95),rgba(122,20,22,.85)),url('https://picsum.photos/seed/sishero/1600/900') center/cover no-repeat;padding:60px 0 80px}
+    .welcome-grid{grid-template-columns:1fr}
+    .prog-grid{grid-template-columns:repeat(2,1fr)}
+    .beyond-grid{grid-template-columns:repeat(2,1fr)}
+    .ann-grid{grid-template-columns:1fr}
+    .tour-inner{grid-template-columns:1fr}
+    .footer-grid{grid-template-columns:1fr 1fr}
+    .features-grid{grid-template-columns:repeat(3,1fr)}
+    .stats-grid{grid-template-columns:repeat(3,1fr)}
+    .fac-grid{grid-template-columns:repeat(3,1fr)}
+    .hero-text h2{font-size:40px}
+  }
+  @media(max-width:600px){
+    .prog-grid{grid-template-columns:1fr}
+    .beyond-grid{grid-template-columns:1fr}
+    .footer-grid{grid-template-columns:1fr}
+    .features-grid{grid-template-columns:repeat(2,1fr)}
+    .stats-grid{grid-template-columns:repeat(2,1fr)}
+    .fac-grid{grid-template-columns:repeat(2,1fr)}
+    nav.main{display:none;position:absolute;top:100%;left:0;right:0;background:#fff;flex-direction:column;padding:8px;border-bottom:1px solid #eee;box-shadow:var(--shadow-md);z-index:40}
+    nav.main.open{display:flex}
+    nav.main a{color:#333}
+    .hamburger{display:block}
+    .hero-text h2{font-size:34px}
+    .topbar-inner{flex-direction:column;text-align:center}
+  }
+</style>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <!-- Top bar -->
+  <div class="topbar">
+    <div class="container topbar-inner">
+      <div>123 Education Street, New Delhi, India <span class="sep">|</span> ☎ +91 1785 42320 <span class="sep">|</span> info@sunshineschool.edu.in</div>
+      <div class="social">
+        <a href="#">Parent Portal</a><span class="sep">|</span><a href="#">Careers</a><span class="sep">|</span><a href="#">Alumni</a>
+        <span class="sep">|</span><a href="#" aria-label="Facebook">📘</a><a href="#" aria-label="Instagram">📸</a><a href="#" aria-label="YouTube">▶️</a><a href="#" aria-label="Twitter">🐦</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Header -->
+  <header class="site-header" id="header">
+    <div class="container header-inner">
+      <div class="brand">
+        <div class="crest">
+          <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l8 4v5c0 5-3.5 8.5-8 9-4.5-.5-8-4-8-9V7l8-4z"/><path d="M9 12l2 2 4-4"/></svg>
+        </div>
+        <div class="brand-text">
+          <h1>SUNSHINE INTERNATIONAL SCHOOL</h1>
+          <p>Nurturing Minds. Shaping Futures.</p>
+        </div>
+      </div>
+      <button class="hamburger" id="hamburger" aria-label="Menu"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg></button>
+      <nav class="main" id="mainNav">
+        <a href="#home" class="active">HOME</a>
+        <a href="#about">ABOUT US</a>
+        <a href="#academics">ACADEMICS</a>
+        <a href="#admissions">ADMISSIONS</a>
+        <a href="#campus">CAMPUS LIFE</a>
+        <a href="#gallery">GALLERY</a>
+        <a href="#contact">CONTACT US</a>
+      </nav>
+      <div class="header-actions">
+        <a class="btn-enquire" href="#enquire">ENQUIRE NOW</a>
+        <div class="search-icon" role="button" aria-label="Search"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg></div>
+      </div>
+    </div>
+  </header>
+
+  <main id="main">
+  <!-- Hero -->
+  <section class="hero" id="home">
+    <div class="container hero-grid">
+      <div class="hero-text reveal">
+        <div class="kicker">WHERE YOUNG MINDS</div>
+        <h2>Learn. <span class="accent">Grow.</span> Succeed.</h2>
+        <p>Empowering students with knowledge, values and skills to thrive in a changing world.</p>
+        <div class="hero-buttons">
+          <a class="btn-primary" href="#admissions">ADMISSIONS OPEN 2024-25</a>
+          <a class="btn-outline" href="#campus">TAKE A CAMPUS TOUR</a>
+        </div>
+      </div>
+      <div class="hero-img reveal">
+        <img src="images/hero-students.jpg" alt="Students of Sunshine International School" loading="eager" onerror="this.onerror=null;this.src='https://picsum.photos/seed/sisstudents/700/500'">
+        <div class="enquire-form" id="enquire">
+          <div class="head">
+            <h3>ENQUIRE NOW</h3>
+            <p>We will get in touch with you!</p>
+          </div>
+          <form id="enquireForm">
+            <input type="text" name="parent" placeholder="Parent's Name" required>
+            <input type="email" name="email" placeholder="Email Address" required>
+            <input type="tel" name="phone" placeholder="Phone Number" required>
+            <select name="grade" required>
+              <option value="">Grade Applying For</option>
+              <option>Pre-Primary</option><option>Primary</option><option>Middle</option><option>High</option><option>Senior Secondary</option>
+            </select>
+            <button type="submit">SUBMIT ENQUIRY</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Features -->
+  <section class="features">
+    <div class="container features-grid">
+      <div class="feat reveal"><div class="icon"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg></div><p>Holistic Education</p></div>
+      <div class="feat reveal"><div class="icon"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></div><p>Experienced Faculty</p></div>
+      <div class="feat reveal"><div class="icon"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg></div><p>Global Perspective</p></div>
+      <div class="feat reveal"><div class="icon"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div><p>Safe & Nurturing Environment</p></div>
+      <div class="feat reveal"><div class="icon"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></div><p>Modern Infrastructure</p></div>
+    </div>
+  </section>
+
+  <!-- Welcome -->
+  <section class="welcome" id="about">
+    <div class="container welcome-grid">
+      <div class="welcome-img reveal"><img src="images/school-building.jpg" alt="School building" loading="lazy" onerror="this.onerror=null;this.src='https://picsum.photos/seed/sisbuilding/800/600'"></div>
+      <div class="welcome-text reveal">
+        <div class="kicker">WELCOME TO SIS</div>
+        <h2>A Place Where Every Child Can Shine</h2>
+        <p>Sunshine International School is committed to academic excellence and holistic development. We nurture curiosity, creativity, and character in every student.</p>
+        <p>Our dedicated faculty and modern facilities create an inspiring environment where young minds grow and succeed.</p>
+        <a class="btn-know" href="#about">KNOW MORE ABOUT US</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Stats -->
+  <section class="stats">
+    <div class="container stats-grid">
+      <div class="stat reveal"><div class="num" data-count="20">0</div><div class="lbl">Years of Excellence</div></div>
+      <div class="stat reveal"><div class="num" data-count="150">0</div><div class="lbl">Dedicated Faculty</div></div>
+      <div class="stat reveal"><div class="num" data-count="2500">0</div><div class="lbl">Happy Students</div></div>
+      <div class="stat reveal"><div class="num">25:1</div><div class="lbl">Student Teacher Ratio</div></div>
+      <div class="stat reveal"><div class="num" data-count="15">0</div><div class="lbl">Sports & Co-curricular Activities</div></div>
+      <div class="stat reveal"><div class="num">100%</div><div class="lbl">Safe & Secure Campus</div></div>
+    </div>
+  </section>
+
+  <!-- Programs -->
+  <section class="programs" id="academics">
+    <div class="container">
+      <div class="section-head reveal">
+        <div class="kicker">OUR ACADEMIC PROGRAMS</div>
+        <h2>Programs Designed for Every Stage</h2>
+      </div>
+      <div class="prog-grid">
+        <div class="prog-card reveal">
+          <img src="https://picsum.photos/seed/preprimary/400/300" alt="Pre-Primary" loading="lazy">
+          <div class="prog-body">
+            <h4>Pre-Primary</h4>
+            <div class="tag">Play. Learn. Grow.</div>
+            <p>Nurturing curiosity and creativity in a caring environment.</p>
+            <a href="#">READ MORE →</a>
+          </div>
+        </div>
+        <div class="prog-card reveal">
+          <img src="https://picsum.photos/seed/primary/400/300" alt="Primary" loading="lazy">
+          <div class="prog-body">
+            <h4>Primary School</h4>
+            <div class="tag">Build. Explore. Discover.</div>
+            <p>Building strong foundations for a bright future.</p>
+            <a href="#">READ MORE →</a>
+          </div>
+        </div>
+        <div class="prog-card reveal">
+          <img src="https://picsum.photos/seed/middle/400/300" alt="Middle" loading="lazy">
+          <div class="prog-body">
+            <h4>Middle School</h4>
+            <div class="tag">Learn. Engage. Excel.</div>
+            <p>Empowering students through learning and real-world learning.</p>
+            <a href="#">READ MORE →</a>
+          </div>
+        </div>
+        <div class="prog-card reveal">
+          <img src="https://picsum.photos/seed/high/400/300" alt="High" loading="lazy">
+          <div class="prog-body">
+            <h4>High School</h4>
+            <div class="tag">Focus. Achieve. Lead.</div>
+            <p>Preparing students for board exams and beyond.</p>
+            <a href="#">READ MORE →</a>
+          </div>
+        </div>
+        <div class="prog-card reveal">
+          <img src="https://picsum.photos/seed/senior/400/300" alt="Senior Secondary" loading="lazy">
+          <div class="prog-body">
+            <h4>Senior Secondary</h4>
+            <div class="tag">Prepare. Perform. Succeed.</div>
+            <p>Equipping future leaders with knowledge and innovation.</p>
+            <a href="#">READ MORE →</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Facilities -->
+  <section class="facilities">
+    <div class="container fac-grid">
+      <div class="fac reveal"><div class="icon"><svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21h18"/><path d="M5 21V7l7-4 7 4v14"/><path d="M9 21v-6h6v6"/></svg></div><div class="num">10+</div><div class="lbl">Acres Campus</div></div>
+      <div class="fac reveal"><div class="icon"><svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg></div><div class="num">50+</div><div class="lbl">Smart Classrooms</div></div>
+      <div class="fac reveal"><div class="icon"><svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M9 3v6l-4 8a2 2 0 0 0 2 3h10a2 2 0 0 0 2-3l-4-8V3"/><path d="M7 21h10"/></svg></div><div class="num">10+</div><div class="lbl">Science Labs</div></div>
+      <div class="fac reveal"><div class="icon"><svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg></div><div class="num">5+</div><div class="lbl">Activity Rooms</div></div>
+      <div class="fac reveal"><div class="icon"><svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="12" rx="2"/><path d="M12 16v4M8 20h8"/></svg></div><div class="num">100%</div><div class="lbl">Digital Campus</div></div>
+    </div>
+  </section>
+
+  <!-- Beyond -->
+  <section class="beyond">
+    <div class="container">
+      <div class="section-head reveal">
+        <div class="kicker">BEYOND CLASSROOMS</div>
+        <h2>Holistic Development Through Activities</h2>
+      </div>
+      <div class="beyond-grid">
+        <div class="beyond-card reveal"><div class="icon"><svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 2a14 14 0 0 0 0 20 14 14 0 0 0 0-20"/><path d="M2 12h20"/></svg></div><h4>Sports</h4></div>
+        <div class="beyond-card reveal"><div class="icon"><svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg></div><h4>Performing Arts</h4></div>
+        <div class="beyond-card reveal"><div class="icon"><svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="13.5" cy="6.5" r="2.5"/><path d="M17 22l-3-7-3 7M7 10l3-3 3 3 3-3"/></svg></div><h4>Visual Arts</h4></div>
+        <div class="beyond-card reveal"><div class="icon"><svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M9.5 2A2.5 2.5 0 0 1 12 4.5v15a2.5 2.5 0 0 1-4.96.44 2.5 2.5 0 0 1-2.96-3.08 3 3 0 0 1-.34-5.58 2.5 2.5 0 0 1 1.32-4.24 2.5 2.5 0 0 1 1.98-3A2.5 2.5 0 0 1 9.5 2Z"/><path d="M14.5 2A2.5 2.5 0 0 0 12 4.5v15a2.5 2.5 0 0 0 4.96.44 2.5 2.5 0 0 0 2.96-3.08 3 3 0 0 0 .34-5.58 2.5 2.5 0 0 0-1.32-4.24 2.5 2.5 0 0 0-1.98-3A2.5 2.5 0 0 0 14.5 2Z"/></svg></div><h4>Life Skills</h4></div>
+        <div class="beyond-card reveal"><div class="icon"><svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></div><h4>Community Service</h4></div>
+        <div class="beyond-card reveal"><div class="icon"><svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg></div><h4>Clubs & Societies</h4></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Testimonial -->
+  <section class="testimonial">
+    <div class="container reveal">
+      <div class="stars">★★★★☆</div>
+      <p class="quote">"Sunshine International School has been a wonderful experience for my child. The teachers are supportive and the environment is perfect for their overall growth."</p>
+      <div class="author">Priya Sharma</div>
+      <div class="role">Parent of Class 5 Student</div>
+    </div>
+  </section>
+
+  <!-- Announcements -->
+  <section class="announcements">
+    <div class="container">
+      <div class="section-head reveal">
+        <div class="kicker">LATEST ANNOUNCEMENTS</div>
+        <h2>Stay Updated</h2>
+      </div>
+      <div class="ann-grid">
+        <div class="ann-card reveal">
+          <div class="ann-date"><div class="day">20</div><div class="mon">May</div></div>
+          <div class="ann-body"><h4>Summer Camp 2024</h4><p>Registrations Open!</p></div>
+        </div>
+        <div class="ann-card reveal">
+          <div class="ann-date"><div class="day">15</div><div class="mon">May</div></div>
+          <div class="ann-body"><h4>Parent Teacher Meeting</h4><p>Saturday, 25 May 2024</p></div>
+        </div>
+        <div class="ann-card reveal">
+          <div class="ann-date"><div class="day">10</div><div class="mon">May</div></div>
+          <div class="ann-body"><h4>Admissions Open for 2024-25 Session</h4><p>Apply Now!</p></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Tour -->
+  <section class="tour" id="campus">
+    <div class="container tour-inner">
+      <div class="reveal">
+        <h2>SCHEDULE A CAMPUS TOUR</h2>
+        <p>Visit our campus and experience the SIS difference in person.</p>
+        <a class="btn-white" href="#enquire">BOOK YOUR TOUR</a>
+      </div>
+      <div class="tour-img reveal">
+        <svg width="160" height="160" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,.25)" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21h18"/><path d="M5 21V7l7-4 7 4v14"/><path d="M9 21v-6h6v6"/><path d="M9 9h1M14 9h1M9 13h1M14 13h1"/></svg>
+      </div>
+    </div>
+  </section>
+  </main>
+
+  <!-- Footer -->
+  <footer class="site-footer" id="contact">
+    <div class="container">
+      <div class="footer-grid">
+        <div>
+          <h4>SUNSHINE INTERNATIONAL SCHOOL</h4>
+          <p>Nurturing Minds, Shaping Futures.<br>A place where every child can shine.</p>
+          <div class="newsletter">
+            <input type="email" placeholder="Enter your email" aria-label="Email for newsletter">
+            <button type="button" id="newsletterBtn">➤</button>
+          </div>
+          <p style="margin-top:10px;font-size:12px;opacity:.6">Stay updated with our latest news and events.</p>
+        </div>
+        <div>
+          <h4>QUICK LINKS</h4>
+          <ul>
+            <li>About Us</li><li>Admissions</li><li>Curriculum</li>
+            <li>Academics</li><li>Campus Life</li><li>Contact Us</li>
+          </ul>
+        </div>
+        <div>
+          <h4>CURRICULUM</h4>
+          <ul>
+            <li>Academics</li><li>Admissions Process</li><li>Extracurricular Activities</li>
+            <li>Library</li><li>E-learning</li>
+          </ul>
+        </div>
+        <div>
+          <h4>CONTACT US</h4>
+          <ul>
+            <li>123 Education Street, New Delhi, India</li>
+            <li>☎ +91 1785 42320</li>
+            <li>✉ info@sunshineschool.edu.in</li>
+          </ul>
+          <h4 style="margin-top:16px">ADMISSIONS</h4>
+          <ul>
+            <li>Admission Process</li><li>Scholarships</li><li>Transport</li><li>Facilities</li><li>FAQ</li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>© 2024 Sunshine International School. All Rights Reserved.</span>
+        <span>Privacy Policy | Terms & Conditions</span>
+      </div>
+    </div>
+  </footer>
+
+  <button class="back-to-top" id="backToTop" aria-label="Back to top">↑</button>
+  <div class="toast" id="toast">Thanks! We'll get in touch soon.</div>
+
+<script>
+  // Header scroll effect
+  const header = document.getElementById('header');
+  const onScroll = () => {
+    header.classList.toggle('scrolled', window.scrollY > 30);
+    document.getElementById('backToTop').classList.toggle('show', window.scrollY > 400);
+  };
+  window.addEventListener('scroll', onScroll, {passive:true});
+
+  // Reveal on scroll
+  const io = new IntersectionObserver((entries)=>{
+    entries.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add('visible'); io.unobserve(e.target);} });
+  },{threshold:.15});
+  document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+
+  // Count up stats
+  const countEls = document.querySelectorAll('[data-count]');
+  const countIO = new IntersectionObserver((entries)=>{
+    entries.forEach(e=>{
+      if(!e.isIntersecting) return;
+      const el=e.target; const target=+el.dataset.count; let cur=0;
+      const step=Math.max(1,Math.ceil(target/60));
+      const t=setInterval(()=>{ cur=Math.min(target,cur+step); el.textContent=cur.toLocaleString()+(target===20?'+':target===15?'+':''); if(cur>=target) clearInterval(t); },25);
+      countIO.unobserve(el);
+    });
+  },{threshold:.5});
+  countEls.forEach(el=>countIO.observe(el));
+
+  // Back to top
+  document.getElementById('backToTop').addEventListener('click',()=>window.scrollTo({top:0,behavior:'smooth'}));
+
+  // Enquire form
+  document.getElementById('enquireForm').addEventListener('submit', (e)=>{
+    e.preventDefault();
+    const toast=document.getElementById('toast');
+    toast.classList.add('show');
+    setTimeout(()=>toast.classList.remove('show'),2800);
+    e.target.reset();
+  });
+
+  // Newsletter
+  document.getElementById('newsletterBtn').addEventListener('click',()=>{
+    const toast=document.getElementById('toast');
+    toast.textContent='Subscribed! Thanks for joining.';
+    toast.classList.add('show');
+    setTimeout(()=>{toast.classList.remove('show');toast.textContent='Thanks! We\'ll get in touch soon.';},2800);
+  });
+
+  // Hamburger toggle
+  document.getElementById('hamburger').addEventListener('click',()=>{
+    document.getElementById('mainNav').classList.toggle('open');
+  });
+  // Close menu on link click (mobile)
+  document.querySelectorAll('nav.main a').forEach(a=>a.addEventListener('click',()=>{
+    document.getElementById('mainNav').classList.remove('open');
+  }));
+
+  // Active nav on scroll
+  const sections=['home','about','academics','admissions','campus','gallery','contact'];
+  window.addEventListener('scroll',()=>{
+    let cur='home';
+    sections.forEach(id=>{
+      const el=document.getElementById(id);
+      if(el && window.scrollY+120>=el.offsetTop) cur=id;
+    });
+    document.querySelectorAll('nav.main a').forEach(a=>{
+      a.classList.toggle('active', a.getAttribute('href')==='#'+cur);
+    });
+  },{passive:true});
+</script>
+</body>
+</html>
